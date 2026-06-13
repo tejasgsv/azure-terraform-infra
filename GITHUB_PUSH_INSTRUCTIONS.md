@@ -8,6 +8,25 @@
 
 ## 🚀 Step-by-Step: Push to GitHub
 
+### Alternative (Automated): Use GitHub CLI (`gh`)
+
+If you want to create the repository and push everything automatically directly from the command line, use the GitHub CLI:
+
+```bash
+cd "c:\Tejas Devops\New folder\Assignment"
+
+# 1. Login to GitHub (if not already logged in)
+gh auth login
+
+# 2. Create repo, set remote to origin, and push all code automatically
+gh repo create azure-terraform-infra --public --source=. --remote=origin --push \
+  --description "Production-grade Azure Infrastructure as Code using Terraform"
+```
+
+*(If you use this automated method, you can skip Steps 1, 2, and 3 below completely.)*
+
+---
+
 ### Step 1: Create a New Repository on GitHub
 
 1. Go to [GitHub New Repository](https://github.com/new)
@@ -142,6 +161,16 @@ git push -u origin feature/new-resources
 
 ## 🆘 Troubleshooting
 
+### Issue: "X Unable to add remote 'origin'" (when using GitHub CLI)
+**Solution**: This happens when your local git already has an 'origin' remote configured from a previous attempt.
+```bash
+# Remove the existing remote
+git remote remove origin
+# Add the new repository remote and push
+git remote add origin https://github.com/tejasgsv/azure-terraform-infra.git
+git push -u origin main
+```
+
 ### Issue: "fatal: unable to access 'https://github.com/...' Couldn't resolve host"
 **Solution**: Check internet connection
 
@@ -254,4 +283,3 @@ azure-terraform-infra/
 **Total Files**: 42  
 **Documentation**: Comprehensive  
 **Quality**: Production-ready  
-
