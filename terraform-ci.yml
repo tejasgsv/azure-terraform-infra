@@ -1,0 +1,91 @@
+name: "Terraform CI"
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+
+jobs:
+  terraform-validate:
+    name: 'Init & Validate'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        module: 
+          - 'azurerm_resource_group'
+          - 'azurerm_virtual_network'
+          - 'azurerm_subnet'
+          - 'azurerm_storage_account'
+          - 'public_ip'
+          - 'NIC'
+          - 'NSG'
+          - 'azurerm_vnet_peering'
+          - 'azurerm_bastion'
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.5.0"
+
+      - name: Terraform Init
+        working-directory: ./${{ matrix.module }}
+        run: terraform init -backend=false
+
+      - name: Terraform Format Check
+        working-directory: ./${{ matrix.module }}
+        run: terraform fmt -check
+        continue-on-error: true
+
+      - name: Terraform Validate
+        working-directory: ./${{ matrix.module }}
+        run: terraform validate
+
+  terraform-plan:
+    name: 'Terraform Plan'
+    needs: terraform-validate
+    runs-on: ubuntu-latest
+    env:
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+    strategy:
+      fail-fast: false
+      matrix:
+        module: 
+          - 'azurerm_resource_group'
+          - 'azurerm_virtual_network'
+          - 'azurerm_subnet'
+          - 'azurerm_storage_account'
+          - 'public_ip'
+          - 'NIC'
+          - 'NSG'
+          - 'azurerm_vnet_peering'
+          - 'azurerm_bastion'
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.5.0"
+
+      - name: Terraform Init
+        working-directory: ./${{ matrix.module }}
+        run: terraform init -backend=false
+
+      - name: Terraform Plan
+        working-directory: ./${{ matrix.module }}
+        run: terraform plan

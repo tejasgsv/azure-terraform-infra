@@ -96,7 +96,7 @@ terraform destroy -auto-approve
 
 ## 🔄 Azure Subscription
 
-- **Subscription ID**: `ad260aed-6495-48f9-bbbb-54f0f48091e9`
+- **Subscription ID**: `<your-subscription-id>`
 - **Provider**: Azure Resource Manager (azurerm)
 - **Terraform Version**: 4.1.0
 

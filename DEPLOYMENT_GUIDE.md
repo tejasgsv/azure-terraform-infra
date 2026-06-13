@@ -15,7 +15,7 @@ Before starting, ensure you have:
   ```bash
   az --version
   az login
-  az account set --subscription "ad260aed-6495-48f9-bbbb-54f0f48091e9"
+  az account set --subscription "<your-subscription-id>"
   ```
 
 - ✅ **Git** installed (for cloning)

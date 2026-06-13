@@ -100,7 +100,7 @@
 
 ### Azure Subscription
 - ✅ Active Azure Subscription
-- ✅ Subscription ID: `ad260aed-6495-48f9-bbbb-54f0f48091e9`
+- ✅ Subscription ID: `<your-subscription-id>`
 - ✅ Valid payment method on file
 
 ### Azure Permissions
@@ -129,7 +129,7 @@ az login
 az account show
 
 # Set subscription (if needed)
-az account set --subscription "ad260aed-6495-48f9-bbbb-54f0f48091e9"
+az account set --subscription "<your-subscription-id>"
 ```
 
 ### Step 2: Verify Authentication
