@@ -68,85 +68,24 @@ Assignment/
    terraform apply
    ```
 
-## 📦 Modules Description
+## 📦 Module Breakdown
 
 | Module | Purpose | Resources |
 |--------|---------|-----------|
-| `azurerm_resource_group` | Create resource groups | 2 RGs (rg-king, rg-queen) |
-| `azurerm_virtual_network` | Create vnets | 2 Virtual Networks |
-| `azurerm_subnet` | Create subnets | 3 Subnets across vnets |
-| `public_ip` | Allocate public IPs | 2 Static Public IPs |
-| `NIC` | Create network interfaces | 2 NICs for VMs |
-| `NSG` | Create security groups | 1 NSG with SSH/HTTP rules |
-| `azurerm_storage_account` | Create storage | 2 Storage Accounts (LRS) |
-| `azurerm_vnet_peering` | Peer networks | vnet ↔ vent1 peering |
-| `azurerm_bastion` | Deploy bastion | 1 Bastion host instance |
-
-## 🔧 Configuration
-
-### Resource Groups
-- **rg-king** (East US)
-- **rg-queen** (Central US)
-
-### Virtual Networks
-- **vnet** (10.40.0.0/16) - East US
-- **vent1** (10.30.0.0/16) - Central US
-
-### Subnets
-- **sub-king** (10.40.0.0/25, 10.40.1.0/26) - vnet
-- **sub-king** (10.30.1.0/30) - vent1
-
-### Security Rules (NSG)
-- **Allow-SSH**: Port 22 (Priority 100)
-- **Allow-HTTP**: Port 80 (Priority 110)
-
-## 📝 Variables
-
-Each module has its own variables. See `terraform.tfvars` in each module directory for current values:
-
-```hcl
-# Example: azurerm_resource_group/terraform.tfvars
-var_tej = {
-  tej1 = {
-    name     = "rg-king"
-    location = "eastus"
-  }
-  tej2 = {
-    name     = "rg-queen"
-    location = "centralus"
-  }
-}
-```
-
-## 🔐 Security
-
-- ✅ All subnets configured with proper CIDR blocks
-- ✅ NSG rules restrict access to SSH (22) and HTTP (80)
-- ✅ Public IPs with Standard SKU for enhanced security
-- ✅ Bastion host provides secure RDP/SSH access
-- ✅ Storage accounts with LRS replication for redundancy
-
-## 📊 Deployment Order
-
-Follow this order for successful deployment:
-
-1. `azurerm_resource_group` - Create resource groups
-2. `azurerm_virtual_network` - Create virtual networks
-3. `azurerm_subnet` - Create subnets
-4. `public_ip` - Allocate public IPs
-5. `NIC` - Create network interfaces
-6. `NSG` - Setup security groups
-7. `azurerm_storage_account` - Create storage
-8. `azurerm_vnet_peering` - Peer the networks
-9. `azurerm_bastion` - Deploy bastion host
+| `azurerm_resource_group` | Base logical containers | East US & Central US |
+| `azurerm_virtual_network` | Network foundation | Isolated VNets |
+| `azurerm_subnet` | Network segmentation | Subnets with custom CIDR |
+| `NSG` | Traffic control | Security rules (SSH/HTTP) |
+| `azurerm_vnet_peering` | Cross-region connectivity | Private peering connection |
+| `azurerm_bastion` | Secure access gateway | Managed Bastion Host |
 
 ## 🧹 Cleanup
 
-To destroy all resources:
+To avoid unnecessary Azure charges, destroy all resources when done:
 
 ```bash
 cd <module-directory>
-terraform destroy
+terraform destroy -auto-approve
 ```
 
 ## 📚 Documentation
